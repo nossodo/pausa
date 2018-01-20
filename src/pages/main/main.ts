@@ -24,6 +24,7 @@ export class MainPage {
   seconds;
   timerRunning;
   up;
+  startDisabled;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController,
               private nativeAudio: NativeAudio, private vibration: Vibration) {
@@ -51,7 +52,7 @@ export class MainPage {
       }
     }
     else {
-      if (this.minutes == 0 && this.seconds == 0) {
+      if (this.minutes == 0 && this.seconds == 0 && !this.startDisabled) {
         this.timerRunning = true;
         this.currenCircleColor = this.circleColors[2];
         this.timerTick();
@@ -111,6 +112,7 @@ export class MainPage {
             this.seconds = 59;
           }
           else if (this.minutes == 0 && this.seconds == 1) {
+            this.disableStart();
             this.playSound('long');
             this.reset();
           }
@@ -133,5 +135,13 @@ export class MainPage {
 
   playSound(sound) {
     this.nativeAudio.play(sound);
+  }
+
+  disableStart() {
+    console.log('disabled start');
+    this.startDisabled = true;
+    setTimeout(() => {
+      this.startDisabled = false;
+    }, 1000);
   }
 }
