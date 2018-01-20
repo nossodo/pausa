@@ -3,14 +3,19 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { NativeAudio } from '@ionic-native/native-audio';
+import { Vibration } from '@ionic-native/vibration';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { MainPage } from '../pages/main/main';
+
+import {Timer} from '../pipes/timer';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    MainPage,
+    Timer
   ],
   imports: [
     BrowserModule,
@@ -19,11 +24,13 @@ import { HomePage } from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    MainPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    NativeAudio,
+    Vibration,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

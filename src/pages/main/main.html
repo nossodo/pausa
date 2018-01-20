@@ -1,0 +1,13 @@
+<!--
+  Generated template for the MainPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content class="no-scroll" (press)="options()" (tap)="startStop()" (swipe)="alterTime($event)">
+  <div>
+    <div class="circle" [ngStyle]="currenCircleColor">
+      <div class="time">{{ minutes }}:{{ seconds | timer }} </div>
+    </div>
+  </div>
+</ion-content>
