@@ -65,10 +65,7 @@ export class MainPage {
       if (e.direction == '2') {
         this.minutes += 1;
       } else if (e.direction == '4') {
-        if (this.minutes < 1) {
-          this.reset();
-        }
-        else {
+        if (this.minutes >= 1) {
           this.minutes -= 1;
         }
       }
