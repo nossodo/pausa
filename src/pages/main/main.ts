@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { Vibration } from '@ionic-native/vibration';
+import { ToastController} from "ionic-angular";
+import { Platform } from "ionic-angular";
 
 /**
  * Generated class for the MainPage page.
@@ -27,16 +29,18 @@ export class MainPage {
   startDisabled;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController,
-              private nativeAudio: NativeAudio, private vibration: Vibration) {
+              private nativeAudio: NativeAudio, private vibration: Vibration, private toastCtrl: ToastController, private platform: Platform) {
     this.circleColors = [
       {'border':'4px solid green'},
       {'border':'4px solid yellow'},
       {'border':'4px solid red'}
     ]
     this.currenCircleColor = this.circleColors[0];
-    this.nativeAudio.preloadSimple('short', 'assets/sound/short.mp3');
-    this.nativeAudio.preloadSimple('long', 'assets/sound/long.mp3');
     this.reset();
+    this.platform.ready().then((readySource) => {
+      this.nativeAudio.preloadSimple('short', 'assets/sound/short.mp3');
+      this.nativeAudio.preloadSimple('long', 'assets/sound/long.mp3');
+    });
   }
 
   ionViewDidLoad() {
@@ -76,6 +80,13 @@ export class MainPage {
     this.vibration.vibrate(40);
     let actionSheet = this.actionSheetCtrl.create({
       buttons: [
+        {
+          text: 'Roll Dices',
+          handler: () => {
+            this.rollDices();
+          },
+          cssClass: 'reset-button'
+        },
         {
           text: 'Reset',
           handler: () => {
@@ -130,6 +141,11 @@ export class MainPage {
     this.up = true;
   }
 
+  rollDices() {
+    let eyes = Math.floor((Math.random() * 6) + 1) + Math.floor((Math.random() * 6) + 1);
+    this.presentToast("You got " + eyes);
+  }
+
   playSound(sound) {
     this.nativeAudio.play(sound);
   }
@@ -140,5 +156,16 @@ export class MainPage {
     setTimeout(() => {
       this.startDisabled = false;
     }, 1000);
+  }
+
+  presentToast(toastMessage) {
+    let toast = this.toastCtrl.create({
+      message: toastMessage,
+      duration: 4000,
+      position: 'top',
+      cssClass: "toastCenter"
+    });
+
+    toast.present();
   }
 }
